@@ -1,0 +1,322 @@
+Create an HTML form for Login and write a JavaScript to validate email ID and Password using Regular Expression.
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-container {
+      background-color: white;
+      padding: 20px 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input[type="email"], input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .error {
+      color: red;
+      font-size: 0.9em;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Login</h2>
+    <form id="loginForm" onsubmit="return validateForm()">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+
+      <div id="errorMsg" class="error"></div>
+
+      <button type="submit">Login</button>
+    </form>
+  </div>
+
+  <script>
+    Function
+
+Create an HTML form that contain the Student Registration details and write a JavaScript to validate Student first and last name as it should not contain other than alphabets and age should be between 18 to 50
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Registration Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    form {
+      max-width: 500px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input[type="text"], input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    input[type="submit"] {
+      background-color: #28a745;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .error {
+      color: red;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Student Registration Form</h2>
+  <form id="studentForm" onsubmit="return validateForm()">
+    <div class="error" id="errorMsg"></div>
+
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" name="firstName" placeholder="Enter First Name">
+
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" name="lastName" placeholder="Enter Last Name">
+
+    <label for="age">Age:</label>
+    <input type="number" id="age" name="age" placeholder="Enter Age">
+
+    <input type="submit" value="Register">
+  </form>
+
+  <script>
+    function validateForm() {
+      const firstName = document.getElementById("firstName").value.trim();
+      const lastName = document.getElementById("lastName").value.trim();
+      const age = parseInt(document.getElementById("age").value);
+      const errorMsg = document.getElementById("errorMsg");
+
+      const nameRegex = /^[A-Za-z]+$/;
+
+      if (!nameRegex.test(firstName)) {
+        errorMsg.textContent = "First name should contain only alphabets.";
+        return false;
+      }
+
+      if (!nameRegex.test(lastName)) {
+        errorMsg.textContent = "Last name should contain only alphabets.";
+        return false;
+      }
+
+      if (isNaN(age) || age < 18 || age > 50) {
+        errorMsg.textContent = "Age must be a number between 18 and 50.";
+        return false;
+      }
+
+      errorMsg.textContent = "";
+      alert("Registration Successful!");
+      return true;
+    }
+  </script>
+
+</body>
+</html>
+
+2nd slip
+Create a Node.js file that will convert the output "Full Stack!" into reverse string. 
+
+// Original string
+const input = "Full Stack!";
+
+// Reverse the string
+const reversed = input.split('').reverse().join('');
+
+// Output the result
+console.log("Reversed Output:", reversed);
+
+
+Using node js create a web page to read two file names from user and append contents of first file into second file.
+
+
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
+const app = express();
+const port = 3000;
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
+
+app.post('/append-files', (req, res) => {
+  const { file1, file2 } = req.body;
+
+  const file1Path = path.join(__dirname, file1);
+  const file2Path = path.join(__dirname, file2);
+
+  // Read content from file1
+  fs.readFile(file1Path, 'utf8', (err, data) => {
+    if (err) {
+      return res.send(`<p>Error reading ${file1}: ${err.message}</p>`);
+    }
+
+    // Append to file2
+    fs.appendFile(file2Path, data, (err) => {
+      if (err) {
+        return res.send(`<p>Error appending to ${file2}: ${err.message}</p>`);
+      }
+
+      res.send(`<p>Contents of "${file1}" successfully appended to "${file2}".</p>`);
+    });
+  });
+});
+
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
+});
+
+Using node js create a User Login System.
+
+const express = require('express');
+const fs = require('fs');
+const bcrypt = require('bcrypt');
+const bodyParser = require('body-parser');
+const path = require('path');
+
+const app = express();
+const PORT = 3000;
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('views'));
+
+const USERS_FILE = 'users.json';
+
+// Ensure users file exists
+if (!fs.existsSync(USERS_FILE)) {
+  fs.writeFileSync(USERS_FILE, '[]');
+}
+
+// Route: Home
+app.get('/', (req, res) => {
+  res.redirect('/login.html');
+});
+
+// Register user
+app.post('/register', async (req, res) => {
+  const { username, password } = req.body;
+  const users = JSON.parse(fs.readFileSync(USERS_FILE));
+
+  // Check if user exists
+  if (users.find(user => user.username === username)) {
+    return res.send('User already exists. <a href="/register.html">Try again</a>');
+  }
+
+  // Hash password
+  const hashedPassword = await bcrypt.hash(password, 10);
+  users.push({ username, password: hashedPassword });
+
+  fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
+  res.send('Registration successful! <a href="/login.html">Login here</a>');
+});
+
+// Login user
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+  const users = JSON.parse(fs.readFileSync(USERS_FILE));
+
+  const user = users.find(user => user.username === username);
+
+  if (!user) {
+    return res.send('User not found. <a href="/login.html">Try again</a>');
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password);
+
+  if (!isMatch) {
+    return res.send('Incorrect password. <a href="/login.html">Try again</a>');
+  }
+
+  res.send(`Welcome, ${username}! 🎉`);
+});
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});
+
+Create a node.js file that Select all records from the "Teacher" table, and find the Teachers whose salary is greater than 20,000.
+
+
+
+
+const mysql = require('mysql2');
+
+// Create DB connection
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',           // replace with your DB user
+  password: '',           // replace with your DB password
+  database: 'school'      // replace with your database name
+});
+
+// Connect to the database
+connection.connect((err) => {
+  if (err) {
+    console.error('Connection error:', err.message);
+    return;
+  }
+  console.log('Connected to MySQL database.');
+
+  // Query to select all teachers with salary > 20000
+  const query = "SELECT * FROM Teacher WHERE salary > 20000";
+
+  connection.query(query, (err, results) => {
+    if (err) {
+      console.error('Query error:', err.message);
+      return;
+    }
+
+    console.log("Teachers with salary > 20000:");
+    results.forEach(teacher => {
+      console.log(`ID: ${teacher.id}, Name: ${teacher.name}, Salary: ${teacher.salary}`);
+    });
+
+    connection.end(); // Close connection
+  });
+});
+
+
+
